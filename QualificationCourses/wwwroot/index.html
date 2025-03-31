@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>MVP: Курси підвищення кваліфікації</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 30px;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 700px;
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+        }
+
+        select, input, button, textarea {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            padding: 6px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="box" id="loginBox">
+        <h1>Вхід до системи</h1>
+        <label for="roleSelect">Оберіть роль:</label>
+        <select id="roleSelect">
+            <option value="admin">Адміністратор</option>
+            <option value="teacher">Викладач</option>
+            <option value="accountant">Бухгалтер</option>
+        </select>
+        <button onclick="login()">Увійти</button>
+    </div>
+
+    <div class="box hidden" id="panelBox">
+        <h2>Вітаємо! Роль: <span id="userRole"></span></h2>
+
+        <!-- Додавання студента -->
+        <div id="studentFormSection" class="hidden">
+            <h3>Додати студента</h3>
+            <form id="studentForm">
+                <input type="text" placeholder="ПІБ" id="fullname" required />
+                <input type="text" placeholder="Спеціальність" id="spec" required />
+                <input type="text" placeholder="Група" id="group" required />
+                <button type="submit">Додати</button>
+            </form>
+        </div>
+
+        <!-- Додавання викладача -->
+        <div id="teacherFormSection" class="hidden">
+            <h3>Додати викладача</h3>
+            <form id="teacherForm">
+                <input type="text" placeholder="ПІБ" id="teacherName" required />
+                <input type="text" placeholder="Телефон" id="teacherPhone" required />
+                <input type="number" placeholder="Стаж (роки)" id="teacherExp" required />
+                <input type="text" placeholder="Предмети (через кому)" id="teacherSubjects" required />
+                <button type="submit">Додати викладача</button>
+            </form>
+        </div>
+
+        <!-- Додавання групи -->
+        <div id="groupFormSection" class="hidden">
+            <h3>Додати групу</h3>
+            <form id="groupForm">
+                <input type="text" placeholder="Назва групи" id="groupName" required />
+                <input type="text" placeholder="Спеціальність" id="groupSpec" required />
+                <input type="text" placeholder="Відділення" id="groupDept" required />
+                <button type="submit">Додати групу</button>
+            </form>
+        </div>
+
+        <!-- Додавання заняття -->
+        <div id="lessonFormSection" class="hidden">
+            <h3>Додати заняття</h3>
+            <form id="lessonForm">
+                <input type="text" placeholder="Предмет" id="lessonSubject" required />
+                <input type="text" placeholder="Тип (лекція/практика)" id="lessonType" required />
+                <input type="number" placeholder="Кількість годин" id="lessonHours" required />
+                <input type="number" placeholder="ID викладача" id="lessonTeacherId" required />
+                <input type="text" placeholder="Група" id="lessonGroup" required />
+                <input type="number" placeholder="Ставка за годину" id="lessonRate" required />
+                <button type="submit">Додати заняття</button>
+            </form>
+        </div>
+
+        <!-- Список студентів -->
+        <div>
+            <h3>Список студентів</h3>
+            <button onclick="loadStudents()">Завантажити студентів</button>
+            <ul id="studentList"></ul>
+        </div>
+
+        <!-- Перевірка оплати -->
+        <div id="paymentSection" class="hidden">
+            <h3>Перевірка оплати викладача</h3>
+            <input type="number" id="teacherId" placeholder="ID викладача" />
+            <button onclick="checkPayment()">Перевірити оплату</button>
+            <div id="paymentResult"></div>
+        </div>
+    </div>
+
+    <script>
+        let userRole = "";
+
+        function login() {
+            userRole = document.getElementById("roleSelect").value;
+            document.getElementById("loginBox").classList.add("hidden");
+            document.getElementById("panelBox").classList.remove("hidden");
+            document.getElementById("userRole").textContent = userRole;
+
+            if (userRole === "admin") {
+                ["studentFormSection", "teacherFormSection", "groupFormSection", "lessonFormSection"].forEach(id =>
+                    document.getElementById(id).classList.remove("hidden")
+                );
+            }
+            if (userRole === "accountant" || userRole === "admin") {
+                document.getElementById("paymentSection").classList.remove("hidden");
+            }
+        }
+
+        document.getElementById("studentForm").onsubmit = async (e) => {
+            e.preventDefault();
+            const res = await fetch("/api/students", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'Role': userRole },
+                body: JSON.stringify({
+                    fullName: fullname.value,
+                    specialization: spec.value,
+                    group: group.value
+                })
+            });
+            if (res.ok) loadStudents(); else alert("Помилка: " + await res.text());
+        };
+
+        document.getElementById("teacherForm").onsubmit = async (e) => {
+            e.preventDefault();
+            const res = await fetch("/api/teachers", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'Role': userRole },
+                body: JSON.stringify({
+                    fullName: teacherName.value,
+                    phone: teacherPhone.value,
+                    experience: parseInt(teacherExp.value),
+                    subjects: teacherSubjects.value.split(",").map(s => s.trim())
+                })
+            });
+            if (!res.ok) alert("Помилка: " + await res.text());
+        };
+
+        document.getElementById("groupForm").onsubmit = async (e) => {
+            e.preventDefault();
+            const res = await fetch("/api/groups", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'Role': userRole },
+                body: JSON.stringify({
+                    name: groupName.value,
+                    specialization: groupSpec.value,
+                    department: groupDept.value
+                })
+            });
+            if (!res.ok) alert("Помилка: " + await res.text());
+        };
+
+        document.getElementById("lessonForm").onsubmit = async (e) => {
+            e.preventDefault();
+            const res = await fetch("/api/lessons", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'Role': userRole },
+                body: JSON.stringify({
+                    subject: lessonSubject.value,
+                    type: lessonType.value,
+                    hours: parseInt(lessonHours.value),
+                    teacherId: parseInt(lessonTeacherId.value),
+                    group: lessonGroup.value,
+                    ratePerHour: parseFloat(lessonRate.value)
+                })
+            });
+            if (!res.ok) alert("Помилка: " + await res.text());
+        };
+
+        async function loadStudents() {
+            const res = await fetch("/api/students", { headers: { 'Role': userRole } });
+            if (!res.ok) return alert("Помилка: " + await res.text());
+            const data = await res.json();
+            studentList.innerHTML = data.map(s => `<li>${s.fullName} — ${s.specialization} (${s.group})</li>`).join('');
+        }
+
+        async function checkPayment() {
+            const id = teacherId.value;
+            const res = await fetch(`/api/payments/teacher/${id}`, { headers: { 'Role': userRole } });
+            if (!res.ok) return alert("Помилка: " + await res.text());
+            const data = await res.json();
+            paymentResult.innerText = `Викладач: ${data.teacherName}\nСума до виплати: ${data.total} грн`;
+        }
+    </script>
+</body>
+</html>

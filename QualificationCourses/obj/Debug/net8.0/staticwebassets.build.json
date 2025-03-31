@@ -1,0 +1,125 @@
+{
+  "Version": 1,
+  "Hash": "mBHZ6Cr72AfpmNTbNtSRazTeyMPHppf6qBXy2gJlIUM=",
+  "Source": "QualificationCourses",
+  "BasePath": "_content/QualificationCourses",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "QualificationCourses\\wwwroot",
+      "Source": "QualificationCourses",
+      "ContentRoot": "C:\\Users\\nazar\\source\\repos\\QualificationCourses\\QualificationCourses\\wwwroot\\",
+      "BasePath": "_content/QualificationCourses",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\nazar\\source\\repos\\QualificationCourses\\QualificationCourses\\wwwroot\\index.html",
+      "SourceId": "QualificationCourses",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\nazar\\source\\repos\\QualificationCourses\\QualificationCourses\\wwwroot\\",
+      "BasePath": "_content/QualificationCourses",
+      "RelativePath": "index#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "gfen6670ue",
+      "Integrity": "zLap/zmSrMV6x3MgXstTee1feyZklENxuL7EhWW6A2s=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "index.gfen6670ue.html",
+      "AssetFile": "C:\\Users\\nazar\\source\\repos\\QualificationCourses\\QualificationCourses\\wwwroot\\index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9420"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"zLap/zmSrMV6x3MgXstTee1feyZklENxuL7EhWW6A2s=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 31 Mar 2025 21:19:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "gfen6670ue"
+        },
+        {
+          "Name": "label",
+          "Value": "index.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-zLap/zmSrMV6x3MgXstTee1feyZklENxuL7EhWW6A2s="
+        }
+      ]
+    },
+    {
+      "Route": "index.html",
+      "AssetFile": "C:\\Users\\nazar\\source\\repos\\QualificationCourses\\QualificationCourses\\wwwroot\\index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9420"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"zLap/zmSrMV6x3MgXstTee1feyZklENxuL7EhWW6A2s=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 31 Mar 2025 21:19:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-zLap/zmSrMV6x3MgXstTee1feyZklENxuL7EhWW6A2s="
+        }
+      ]
+    }
+  ]
+}
